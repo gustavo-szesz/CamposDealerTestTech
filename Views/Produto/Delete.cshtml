@@ -1,0 +1,29 @@
+@model Models.Produto
+@{
+    ViewData["Title"] = "Excluir Produto";
+}
+
+<h1>Excluir Produto</h1>
+
+<div class="alert alert-danger">
+    <h3>Você tem certeza que deseja excluir este produto?</h3>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">ID:</dt>
+        <dd class="col-sm-9">@Model.idProduto</dd>
+        
+        <dt class="col-sm-3">Descrição:</dt>
+        <dd class="col-sm-9">@Model.dscProduto</dd>
+        
+        <dt class="col-sm-3">Valor Unitário:</dt>
+        <dd class="col-sm-9">@Model.vlrUnitario.ToString("C")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="idProduto" />
+        <input type="submit" value="Confirmar Exclusão" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

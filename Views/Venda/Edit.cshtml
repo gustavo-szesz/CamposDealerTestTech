@@ -1,0 +1,106 @@
+@model Models.Venda
+@{
+    ViewData["Title"] = "Editar Venda";
+}
+
+<h1>Editar Venda</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="idVenda" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="idCliente" class="control-label">Cliente</label>
+                <select asp-for="idCliente" class="form-select" asp-items="ViewBag.Clientes" required>
+                    <option value="">Selecione um cliente</option>
+                </select>
+                <span asp-validation-for="idCliente" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="idProduto" class="control-label">Produto</label>
+                <select asp-for="idProduto" class="form-select" asp-items="ViewBag.Produtos" required id="idProduto">
+                    <option value="">Selecione um produto</option>
+                </select>
+                <span asp-validation-for="idProduto" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="qtdVenda" class="control-label">Quantidade</label>
+                <input asp-for="qtdVenda" class="form-control" type="number" min="1" required id="qtdVenda" />
+                <span asp-validation-for="qtdVenda" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="vlrUnitarioVenda" class="control-label">Valor Unitário</label>
+                <input asp-for="vlrUnitarioVenda" class="form-control" type="number" step="0.01" min="0" required id="vlrUnitarioVenda" />
+                <span asp-validation-for="vlrUnitarioVenda" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="dthVenda" class="control-label">Data da Venda</label>
+                <input asp-for="dthVenda" class="form-control" type="datetime-local" required />
+                <span asp-validation-for="dthVenda" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label class="control-label">Valor Total</label>
+                <input asp-for="vlrTotalVenda" class="form-control" type="number" readonly id="vlrTotalVenda" />
+                <span class="text-muted">Calculado automaticamente (Quantidade x Valor Unitário)</span>
+            </div>
+            
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Calcular o valor total automaticamente quando quantidade ou valor unitário mudar
+        $(document).ready(function() {
+            function calcularValorTotal() {
+                var quantidade = $('#qtdVenda').val();
+                var valorUnitario = $('#vlrUnitarioVenda').val();
+                if (quantidade && valorUnitario) {
+                    var total = parseFloat(quantidade) * parseFloat(valorUnitario);
+                    $('#vlrTotalVenda').val(total.toFixed(2));
+                }
+            }
+            
+            $('#qtdVenda, #vlrUnitarioVenda').change(calcularValorTotal);
+            
+            // Calcular ao carregar a página também
+            calcularValorTotal();
+            
+            // Quando seleciona um produto, buscar seu preço
+            $('#idProduto').change(function() {
+                var produtoId = $(this).val();
+                // Buscar o preço do produto selecionado via AJAX ou usar dados pré-carregados
+                var produtoSelecionado = null;
+                @foreach (var item in ViewBag.Produtos)
+                {
+                    <text>
+                    if (produtoId == "@item.Value") {
+                        // Buscar o preço do produto (pode ser necessário ajustar conforme sua implementação)
+                        // Aqui estou assumindo que você tem o preço disponível de alguma forma
+                        fetch('/Produto/GetPreco/' + produtoId)
+                            .then(response => response.json())
+                            .then(data => {
+                                $('#vlrUnitarioVenda').val(data.preco);
+                                calcularValorTotal();
+                            })
+                            .catch(error => console.error('Erro ao buscar preço:', error));
+                    }
+                    </text>
+                }
+            });
+        });
+    </script>
+}

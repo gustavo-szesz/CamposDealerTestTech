@@ -1,0 +1,24 @@
+@model Models.Produto
+@{
+    ViewData["Title"] = "Detalhes do Produto";
+}
+
+<h1>Detalhes do Produto</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">ID:</dt>
+        <dd class="col-sm-9">@Model.idProduto</dd>
+        
+        <dt class="col-sm-3">Descrição:</dt>
+        <dd class="col-sm-9">@Model.dscProduto</dd>
+        
+        <dt class="col-sm-3">Valor Unitário:</dt>
+        <dd class="col-sm-9">@Model.vlrUnitario.ToString("C")</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.idProduto" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>

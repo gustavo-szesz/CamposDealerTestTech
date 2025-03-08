@@ -1,0 +1,47 @@
+@model IEnumerable<Models.Produto>
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+<h1>Lista de Produtos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Novo Produto</a>
+    <a asp-action="Import" class="btn btn-success">Importar Produtos da API</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group mb-4">
+        <label for="searchString">Pesquisar por Descrição:</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" />
+            <button type="submit" class="btn btn-outline-secondary">Pesquisar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Valor Unitário</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.idProduto</td>
+                <td>@item.dscProduto</td>
+                <td>@item.vlrUnitario.ToString("C")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.idProduto" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.idProduto" class="btn btn-info btn-sm">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.idProduto" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

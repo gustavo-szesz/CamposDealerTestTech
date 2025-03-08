@@ -1,0 +1,41 @@
+@model Models.Venda
+@{
+    ViewData["Title"] = "Excluir Venda";
+}
+
+<h1>Excluir Venda</h1>
+
+<div class="alert alert-danger">
+    <h3>Você tem certeza que deseja excluir esta venda?</h3>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">ID da Venda:</dt>
+        <dd class="col-sm-9">@Model.idVenda</dd>
+        
+        <dt class="col-sm-3">Cliente:</dt>
+        <dd class="col-sm-9">@(Model.Cliente?.nmCliente ?? "N/A")</dd>
+        
+        <dt class="col-sm-3">Produto:</dt>
+        <dd class="col-sm-9">@(Model.Produto?.dscProduto ?? "N/A")</dd>
+        
+        <dt class="col-sm-3">Quantidade:</dt>
+        <dd class="col-sm-9">@Model.qtdVenda</dd>
+        
+        <dt class="col-sm-3">Valor Unitário:</dt>
+        <dd class="col-sm-9">@Model.vlrUnitarioVenda.ToString("C")</dd>
+        
+        <dt class="col-sm-3">Data da Venda:</dt>
+        <dd class="col-sm-9">@Model.dthVenda.ToString("dd/MM/yyyy HH:mm")</dd>
+        
+        <dt class="col-sm-3">Valor Total:</dt>
+        <dd class="col-sm-9">@Model.vlrTotalVenda.ToString("C")</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="idVenda" />
+        <input type="submit" value="Confirmar Exclusão" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

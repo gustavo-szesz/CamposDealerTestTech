@@ -1,0 +1,48 @@
+@model Models.Cliente
+@{
+    ViewData["Title"] = "Excluir Cliente";
+}
+
+<h1>Excluir Cliente</h1>
+
+<div class="alert alert-danger">
+    <h3>Você tem certeza que deseja excluir este cliente?</h3>
+    <p>Esta ação não poderá ser desfeita.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Dados do Cliente</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">ID</dt>
+                    <dd class="col-sm-8">@Model.idCliente</dd>
+                    
+                    <dt class="col-sm-4">Nome</dt>
+                    <dd class="col-sm-8">@Model.nmCliente</dd>
+                    
+                    <dt class="col-sm-4">Cidade</dt>
+                    <dd class="col-sm-8">@Model.Cidade</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3">
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="idCliente" />
+        
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirmar Exclusão
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar para Lista
+            </a>
+        </div>
+    </form>
+</div>
