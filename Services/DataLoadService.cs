@@ -13,6 +13,7 @@ namespace Services
         private int _nextClienteId = 1;
         private int _nextProdutoId = 1;
         private int _nextVendaId = 1;
+        private List<Cliente> _clientes;
 
         public ObservableCollection<Cliente> Clientes { get; private set; } = new ObservableCollection<Cliente>();
         public ObservableCollection<Produto> Produtos { get; private set; } = new ObservableCollection<Produto>();
@@ -24,18 +25,16 @@ namespace Services
         }
 
         // Métodos para Cliente
-        public async Task LoadClientesAsync()
+        public async Task<List<Cliente>> LoadClientesAsync()
         {
-            var clientes = await _apiService.GetClientesAsync();
-            if (clientes != null && clientes.Any())
+            // Carregar os clientes da API se ainda não estiverem carregados
+            if (_clientes == null || _clientes.Count == 0)
             {
-                Clientes.Clear();
-                foreach (var cliente in clientes)
-                {
-                    Clientes.Add(cliente);
-                }
-                _nextClienteId = Clientes.Max(c => c.idCliente) + 1;
+                _clientes = await _apiService.GetClientesAsync  ();
             }
+            
+            // Retornar a lista de clientes
+            return _clientes;
         }
 
         public async Task<Cliente> CreateClienteAsync(Cliente cliente)
@@ -71,6 +70,19 @@ namespace Services
                 return true;
             }
             return false;
+        }
+
+        // Adicionar um novo método que retorna a lista de clientes
+        public async Task<List<Cliente>> GetClientesAsync()
+        {
+            // Se ainda não tiver carregado, carrega da API
+            if (_clientes == null || !_clientes.Any())
+            {
+                var apiResponse = await _apiService.GetClientesAsync();
+                _clientes = apiResponse;
+            }
+            
+            return _clientes;
         }
 
         // Métodos para Produto
@@ -145,7 +157,7 @@ namespace Services
         public async Task<Venda> CreateVendaAsync(Venda venda)
         {
             // Calcular valor total
-            venda.vlrTotalVenda = venda.qtdVenda * venda.vlrUnitarioVenda;
+            venda.vlrTotalVenda = (float)(venda.qtdVenda * venda.vlrUnitarioVenda);
             venda.idVenda = _nextVendaId++;
             
             // Atribuir objetos relacionados
@@ -166,7 +178,7 @@ namespace Services
                 existingVenda.qtdVenda = venda.qtdVenda;
                 existingVenda.vlrUnitarioVenda = venda.vlrUnitarioVenda;
                 existingVenda.dthVenda = venda.dthVenda;
-                existingVenda.vlrTotalVenda = venda.qtdVenda * venda.vlrUnitarioVenda;
+                existingVenda.vlrTotalVenda = (float)(venda.qtdVenda * venda.vlrUnitarioVenda);
                 
                 // Atualizar objetos relacionados
                 existingVenda.Cliente = Clientes.FirstOrDefault(c => c.idCliente == venda.idCliente);

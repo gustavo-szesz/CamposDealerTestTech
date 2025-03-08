@@ -1,57 +1,44 @@
 @model IEnumerable<Models.Venda>
+
 @{
     ViewData["Title"] = "Vendas";
 }
 
-<h1>Lista de Vendas</h1>
+<h1>Vendas</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Nova Venda</a>
-    <a asp-action="Import" class="btn btn-success">Importar Vendas da API</a>
+    <a asp-action="Create" class="btn btn-primary">Registrar Nova Venda</a>
+    <a asp-controller="Home" asp-action="ImportarVendas" class="btn btn-success">Carregar Vendas da API</a>
 </p>
-
-<form asp-action="Index" method="get">
-    <div class="form-group mb-4">
-        <label for="searchString">Pesquisar por Cliente ou Produto:</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="searchString" />
-            <button type="submit" class="btn btn-outline-secondary">Pesquisar</button>
-        </div>
-    </div>
-</form>
-
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Valor Unitário</th>
-                <th>Data da Venda</th>
-                <th>Valor Total</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.idVenda</td>
-                    <td>@(item.Cliente?.nmCliente ?? "N/A")</td>
-                    <td>@(item.Produto?.dscProduto ?? "N/A")</td>
-                    <td>@item.qtdVenda</td>
-                    <td>@item.vlrUnitarioVenda.ToString("C")</td>
-                    <td>@item.dthVenda.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>@item.vlrTotalVenda.ToString("C")</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.idVenda" class="btn btn-warning btn-sm">Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.idVenda" class="btn btn-info btn-sm">Detalhes</a>
-                        <a asp-action="Delete" asp-route-id="@item.idVenda" class="btn btn-danger btn-sm">Excluir</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Data da Venda</th>
+            <th>Valor Total</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.idVenda)</td>
+            <td>@Html.DisplayFor(modelItem => item.Cliente.nmCliente)</td>
+            <td>@Html.DisplayFor(modelItem => item.Produto.dscProduto)</td>
+            <td>@Html.DisplayFor(modelItem => item.qtdVenda)</td>
+            <td>@Html.DisplayFor(modelItem => item.vlrUnitarioVenda)</td>
+            <td>@Html.DisplayFor(modelItem => item.dthVenda)</td>
+            <td>@Html.DisplayFor(modelItem => item.vlrTotalVenda)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idVenda" class="btn btn-sm btn-warning">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.idVenda" class="btn btn-sm btn-info">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.idVenda" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

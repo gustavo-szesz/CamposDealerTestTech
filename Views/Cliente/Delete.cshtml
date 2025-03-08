@@ -1,48 +1,39 @@
 @model Models.Cliente
+
 @{
     ViewData["Title"] = "Excluir Cliente";
 }
 
 <h1>Excluir Cliente</h1>
 
-<div class="alert alert-danger">
-    <h3>Você tem certeza que deseja excluir este cliente?</h3>
-    <p>Esta ação não poderá ser desfeita.</p>
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5>Dados do Cliente</h5>
-            </div>
-            <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-4">ID</dt>
-                    <dd class="col-sm-8">@Model.idCliente</dd>
-                    
-                    <dt class="col-sm-4">Nome</dt>
-                    <dd class="col-sm-8">@Model.nmCliente</dd>
-                    
-                    <dt class="col-sm-4">Cidade</dt>
-                    <dd class="col-sm-8">@Model.Cidade</dd>
-                </dl>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="mt-3">
+<h3>Tem certeza que deseja excluir este cliente?</h3>
+<div>
+    <h4>Cliente</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            ID
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.idCliente)
+        </dd>
+        <dt class = "col-sm-2">
+            Nome
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.nmCliente)
+        </dd>
+        <dt class = "col-sm-2">
+            Cidade
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+    </dl>
+    
     <form asp-action="Delete">
         <input type="hidden" asp-for="idCliente" />
-        
-        <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Confirmar Exclusão
-            </button>
-            <a asp-action="Index" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Voltar para Lista
-            </a>
-        </div>
+        <input type="submit" value="Excluir" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Voltar</a>
     </form>
 </div>

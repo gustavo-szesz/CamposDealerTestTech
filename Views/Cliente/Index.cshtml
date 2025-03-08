@@ -1,47 +1,48 @@
 @model IEnumerable<Models.Cliente>
+
 @{
     ViewData["Title"] = "Clientes";
 }
 
-<h1>Lista de Clientes</h1>
+<h1>Clientes</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Novo Cliente</a>
-    <a asp-action="Import" class="btn btn-success">Importar Clientes da API</a>
+    <a asp-action="Create" class="btn btn-primary">Cadastrar Novo Cliente</a>
+    <a asp-controller="Cliente" asp-action="ImportarClientes" class="btn btn-success">Carregar Clientes da API</a>
 </p>
-
-<form asp-action="Index" method="get">
-    <div class="form-group mb-4">
-        <label for="searchString">Pesquisar por Nome:</label>
-        <div class="input-group">
-            <input type="text" class="form-control" name="searchString" />
-            <button type="submit" class="btn btn-outline-secondary">Pesquisar</button>
-        </div>
-    </div>
-</form>
-
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Cidade</th>
+            <th>
+                @Html.DisplayNameFor(model => model.idCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nmCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cidade)
+            </th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.idCliente</td>
-                <td>@item.nmCliente</td>
-                <td>@item.Cidade</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.idCliente" class="btn btn-warning btn-sm">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.idCliente" class="btn btn-info btn-sm">Detalhes</a>
-                    <a asp-action="Delete" asp-route-id="@item.idCliente" class="btn btn-danger btn-sm">Excluir</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nmCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cidade)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.idCliente" class="btn btn-sm btn-warning">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.idCliente" class="btn btn-sm btn-info">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.idCliente" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

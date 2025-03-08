@@ -1,26 +1,37 @@
 using System;
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
     public class Venda
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int idVenda { get; set; }
-        public int idCliente { get; set; }
-        public int idProduto { get; set; }
-        public int qtdVenda { get; set; }
-        public float vlrUnitarioVenda { get; set; }
         
-        [JsonConverter(typeof(MicrosoftDateConverter))]
+        [Required]
+        public int idCliente { get; set; }
+        
+        [Required]
+        public int idProduto { get; set; }
+        
+        [Required]
+        public int qtdVenda { get; set; }
+        
+        [Required]
+        public decimal vlrUnitarioVenda { get; set; }
+        
+        [Required]
         public DateTime dthVenda { get; set; }
         
+        [Required]
         public float vlrTotalVenda { get; set; }
         
-        // Navigation properties (optional)
-        [JsonIgnore]
-        public Cliente? Cliente { get; set; }
+        [ForeignKey("idCliente")]
+        public virtual Cliente Cliente { get; set; }
         
-        [JsonIgnore]
-        public Produto? Produto { get; set; }
+        [ForeignKey("idProduto")]
+        public virtual Produto Produto { get; set; }
     }
 }
